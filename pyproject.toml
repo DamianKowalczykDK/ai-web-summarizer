@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "src"
+version = "0.1.0"
+description = ""
+authors = ["Damian <damiankowalczyk3688@gmail.com>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+httpx = "^0.28.1"
+beautifulsoup4 = "^4.13.4"
+openai = "^1.91.0"
+python-dotenv = "^1.1.0"
+pyyaml = "^6.0.2"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.16.1"
+pytest = "^8.4.1"
+pytest-cov = "^6.2.1"
+pytest-httpx = "^0.35.0"
+types-pyyaml = "^6.0.12.20250915"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
