@@ -1,7 +1,7 @@
 from src.llm.model import PromptInput
 import yaml
 
-def load_summary_prompts(path: str = "prompts/summary.yaml") -> tuple[PromptInput, PromptInput, PromptInput]:
+def load_summary_prompts(path: str) -> tuple[PromptInput, PromptInput, PromptInput]:
     with open(path, "r", encoding="utf-8") as file:
         data = yaml.safe_load(file)
 
