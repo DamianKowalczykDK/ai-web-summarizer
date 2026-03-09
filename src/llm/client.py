@@ -1,6 +1,7 @@
 from src.llm.model import LLMModelParams, PromptInput, PromptOutput
 from abc import abstractmethod, ABC
 from openai import OpenAI
+from openai.types.chat import ChatCompletionSystemMessageParam, ChatCompletionUserMessageParam
 import httpx
 
 class LLMClient[M, P, O](ABC):
@@ -21,8 +22,12 @@ class OpenAiClient(LLMClient[LLMModelParams, PromptInput, PromptOutput]):
         response = self.client.chat.completions.create(
             model=self.model_params.model,
             messages=[
-                {"role": "system", "content": prompt.system},
-                {"role": "user", "content": prompt.user},
+                ChatCompletionSystemMessageParam(
+                role="system", content= prompt.system
+                ),
+                ChatCompletionUserMessageParam(
+                role="user", content=prompt.user
+                )
             ],
             temperature=self.model_params.temperature
         )
