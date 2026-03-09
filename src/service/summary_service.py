@@ -40,7 +40,6 @@ class SummaryService[M, P: PromptInput, O: PromptOutput]:
         })
 
         output = self.analysis_llm.generate(filled_analysis)
-        print(output.text)
 
         filled_formatter: P = self.prompt_factory({
             "system": formatter_prompt.system.format(language=args.language),
