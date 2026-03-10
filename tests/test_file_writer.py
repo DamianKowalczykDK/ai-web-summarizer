@@ -1,4 +1,4 @@
-from src.service.file_writer import FormaterWriterService
+from src.service.file_writer import FormatterWriterService
 from src.llm.model import PromptOutput
 from pathlib import Path
 import pytest
@@ -9,7 +9,7 @@ def output() -> PromptOutput:
 
 
 def test_save(tmp_path: Path, output: PromptOutput) -> None:
-    writer = FormaterWriterService[PromptOutput]()
+    writer = FormatterWriterService[PromptOutput]()
     filename = tmp_path / "output.txt"
 
     result_path = writer.save(output=output, data_format="txt", filename=str(filename))
@@ -18,7 +18,7 @@ def test_save(tmp_path: Path, output: PromptOutput) -> None:
     assert Path(result_path).read_text() == output.text
 
 def test_save_default_filename(tmp_path: Path, output: PromptOutput, monkeypatch: pytest.MonkeyPatch) -> None:
-    writer = FormaterWriterService[PromptOutput]()
+    writer = FormatterWriterService[PromptOutput]()
     monkeypatch.chdir(tmp_path)
 
     result_path = writer.save(output=output, data_format="txt")
