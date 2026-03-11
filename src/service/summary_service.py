@@ -5,6 +5,28 @@ from src.service.schema import SummaryArgs
 
 
 class SummaryService[M, P: PromptInput, O: PromptOutput]:
+    """
+    Service for generating summaries using multiple LLM clients.
+
+    This service orchestrates a multi-step summarization pipeline:
+    1. Analysis LLM to extract key information from input text.
+    2. Generator LLM to format the extracted information.
+    3. Serializer LLM to serialize the formatted output into the desired format.
+
+    Parameters
+    ----------
+    analysis_llm : LLMClient[M, P, O]
+        LLM client used for analyzing the input text.
+    generation_llm : LLMClient[M, P, O]
+        LLM client used for formatting the analysis output.
+    serializer_llm : LLMClient[M, P, O]
+        LLM client used for serializing the formatted output.
+    prompt_factory : Callable[[dict[str, Any]], P]
+        Factory function that fills a prompt template with provided values.
+    prompt_loader : Callable[[str], tuple[P, P, P]]
+        Function that loads analysis, formatter, and serializer prompts from a file.
+    """
+
     def __init__(
             self,
             analysis_llm: LLMClient[M, P, O],
@@ -19,14 +41,45 @@ class SummaryService[M, P: PromptInput, O: PromptOutput]:
         self.prompt_factory = prompt_factory
         self.prompt_loader = prompt_loader
 
-
-
     def __call__(self,
                  args: SummaryArgs,
                  prompt_path: str,
                  data_format: str,
                  input_loader: Callable[[str], str | None],
-                 on_complete: Callable[[O], None] | None= None) -> PromptOutput:
+                 on_complete: Callable[[O], None] | None = None) -> PromptOutput:
+        """
+        Execute the summarization pipeline.
+
+        Steps:
+        1. Load input text using the input_loader.
+        2. Generate analysis output using analysis LLM.
+        3. Format the analysis output using generation LLM.
+        4. Serialize the formatted output using serializer LLM.
+        5. Optionally call a callback when complete.
+
+        Parameters
+        ----------
+        args : SummaryArgs
+            Arguments specifying input path, summary count, and language.
+        prompt_path : str
+            Path to the YAML file containing prompts.
+        data_format : str
+            Desired output format (e.g., "txt", "json").
+        input_loader : Callable[[str], str | None]
+            Function to load raw text from the input path.
+        on_complete : Callable[[O], None] | None, optional
+            Callback function called with the final summary output.
+
+        Returns
+        -------
+        PromptOutput
+            The final serialized summary output.
+
+        Raises
+        ------
+        ValueError
+            If the input_loader fails to retrieve any text.
+        """
         text = input_loader(args.path)
 
         if not text:
@@ -59,6 +112,3 @@ class SummaryService[M, P: PromptInput, O: PromptOutput]:
             on_complete(summary_output)
 
         return summary_output
-
-
-
