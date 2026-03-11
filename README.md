@@ -1,7 +1,7 @@
 # 🚀 AI Web Summarizer: AI-Powered Text Summarization Pipeline
 [![Python](https://img.shields.io/badge/Python-3.13-blue.svg)](https://www.python.org/)
 [![Type Checking](https://img.shields.io/badge/Mypy-Strict-informational.svg)](http://mypy-lang.org/)
-[![Test Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)](https://damiankowalczykdk.github.io/ai-web-summarizer/docs/index.html)
+[![Test Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)](https://damiankowalczykdk.github.io/ai-web-summarizer/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
